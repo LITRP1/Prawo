@@ -3,52 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Nakazów</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Portal Dokumentów Prawnych</title>
+    <link rel="stylesheet" href="styl.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Generator Nakazów</h1>
-            <img src="twoje_zdjecie.jpg" alt="Zdjęcie" class="profile-picture">
-        </div>
-        <form id="applicationForm">
-            <label for="imie">Imię:</label>
-            <input type="text" id="imie" name="imie" required>
-
-            <label for="nazwisko">Nazwisko:</label>
-            <input type="text" id="nazwisko" name="nazwisko" required>
-
-            <label for="numerSprawy">Numer Sprawy:</label>
-            <input type="text" id="numerSprawy" name="numerSprawy" required>
-
-            <label for="data">Data:</label>
-            <input type="date" id="data" name="data" required>
-
-            <label for="rola">Rola w Postępowaniu:</label>
-            <select id="rola" name="rola" required onchange="checkPassword()">
-                <option value="">-- Wybierz rolę --</option>
+        <h1>Portal Dokumentów Prawnych</h1>
+        
+        <section id="loginSection">
+            <label for="roleSelect">Wybierz rolę:</label>
+            <select id="roleSelect">
                 <option value="adwokat">Adwokat</option>
                 <option value="prokurator">Prokurator</option>
-                <option value="sędzia">Sędzia</option>
+                <option value="sedzia">Sędzia</option>
             </select>
-
-            <label for="haslo">Hasło:</label>
-            <input type="password" id="haslo" name="haslo" required disabled>
-
-            <div class="button-group">
-                <button type="button" id="generateOrderBtn" onclick="showOrderOptions()" disabled>Wybierz Nakaz</button>
+            <label for="password">Hasło:</label>
+            <input type="password" id="password" placeholder="Wprowadź hasło">
+            <button onclick="authenticate()">Zaloguj</button>
+        </section>
+        
+        <section id="formSection" style="display:none;">
+            <label for="documentType">Wybierz typ dokumentu:</label>
+            <select id="documentType" onchange="toggleForm()">
+                <option value="nakaz">Nakaz</option>
+                <option value="apelacja">Apelacja</option>
+            </select>
+            
+            <div id="warrantForm" style="display:none;">
+                <h2>Formularz Nakazu</h2>
+                <label for="courtName">Organ wydający:</label>
+                <input type="text" id="courtName" placeholder="Sąd LITRP lub Prokurator">
+                <label for="issueDate">Data wydania:</label>
+                <input type="date" id="issueDate">
+                <label for="issuePlace">Miejsce wydania:</label>
+                <input type="text" id="issuePlace">
+                <label for="suspectName">Osoba ścigana:</label>
+                <input type="text" id="suspectName">
+                <label for="suspectCitizenship">Obywatelstwo:</label>
+                <input type="text" id="suspectCitizenship">
+                <label for="caseSignature">Sygnatura sprawy:</label>
+                <input type="text" id="caseSignature">
+                <label for="rulingType">Rodzaj orzeczenia:</label>
+                <input type="text" id="rulingType">
+                <label for="legalBasis">Kwalifikacja prawna czynu:</label>
+                <input type="text" id="legalBasis">
+                <label for="penaltyRange">Górna granica kary:</label>
+                <input type="text" id="penaltyRange">
+                <label for="caseDescription">Opis sprawy:</label>
+                <textarea id="caseDescription"></textarea>
+                <label for="consequences">Następstwa czynu:</label>
+                <textarea id="consequences"></textarea>
+                <button onclick="generateWarrant()">Generuj Nakaz</button>
             </div>
 
-            <div id="orderOptions" class="order-options" style="display: none;">
-                <button type="button" onclick="generateOrder('search')">Nakaz Przeszukania</button>
-                <button type="button" onclick="generateOrder('arrest')">Nakaz Aresztowania</button>
-                <button type="button" onclick="generateOrder('seizure')">Nakaz Zatrzymania Mienia</button>
+            <div id="appealForm" style="display:none;">
+                <h2>Formularz Apelacji</h2>
+                <label for="appealDate">Data wyroku:</label>
+                <input type="date" id="appealDate">
+                <label for="appealCourt">Organ wydający:</label>
+                <input type="text" id="appealCourt" placeholder="Sąd LITRP lub Prokurator">
+                <label for="appealCaseSignature">Sygnatura akt:</label>
+                <input type="text" id="appealCaseSignature">
+                <label for="appealScope">Zakres zaskarżenia:</label>
+                <input type="text" id="appealScope">
+                <label for="appealCharges">Zarzuty:</label>
+                <textarea id="appealCharges"></textarea>
+                <label for="appealRequest">Żądanie:</label>
+                <textarea id="appealRequest"></textarea>
+                <label for="appealJustification">Uzasadnienie:</label>
+                <textarea id="appealJustification"></textarea>
+                <label for="appealAttachments">Załączniki:</label>
+                <textarea id="appealAttachments"></textarea>
+                <button onclick="generateAppeal()">Generuj Apelację</button>
             </div>
-        </form>
+            
+            <button onclick="downloadDocument(document.getElementById('documentType').value)">Pobierz Dokument</button>
 
-        <div id="applicationOutput" class="output"></div>
+            <div id="documentOutputContainer">
+                <div id="documentOutput" class="output"></div>
+                <img src="twoje_zdjecie.jpg" id="userPhoto" alt="Twoje zdjęcie">
+            </div>
+        </section>
     </div>
-    <script src="script.js"></script>
+
+    <script src="scrip.js"></script>
 </body>
 </html>
